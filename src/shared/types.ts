@@ -6,10 +6,20 @@ export const EXPLANATION_TRANSLATION_DISPLAY_MODES = {
 export type ExplanationTranslationDisplayMode =
   (typeof EXPLANATION_TRANSLATION_DISPLAY_MODES)[keyof typeof EXPLANATION_TRANSLATION_DISPLAY_MODES]
 
+export const TRANSLATION_PROVIDERS = {
+  deepl: "deepl",
+  google: "google",
+} as const
+
+export type TranslationProvider =
+  (typeof TRANSLATION_PROVIDERS)[keyof typeof TRANSLATION_PROVIDERS]
+
 export type ExtensionSettings = {
   readonly explanationTranslationDisplayMode: ExplanationTranslationDisplayMode
+  readonly deeplApiKey: string
   readonly googleApiKey: string
   readonly targetLanguage: string
+  readonly translationProvider: TranslationProvider
 }
 
 export type TranslateMeaningPayload = {
@@ -40,6 +50,10 @@ export function isExplanationTranslationDisplayMode(
     value === EXPLANATION_TRANSLATION_DISPLAY_MODES.replace ||
     value === EXPLANATION_TRANSLATION_DISPLAY_MODES.separate
   )
+}
+
+export function isTranslationProvider(value: unknown): value is TranslationProvider {
+  return value === TRANSLATION_PROVIDERS.deepl || value === TRANSLATION_PROVIDERS.google
 }
 
 export function isTranslateMeaningRequest(value: unknown): value is TranslateMeaningRequest {

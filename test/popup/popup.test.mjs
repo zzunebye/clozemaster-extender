@@ -12,10 +12,23 @@ test("popup offers explanation translation display mode setting", async () => {
   assert.equal(html.includes("Show in separate dialog"), true)
 })
 
+test("popup offers translation provider and DeepL key settings", async () => {
+  const html = await readFile(new URL("../../popup.html", import.meta.url), "utf8")
+
+  assert.equal(html.includes('id="translationProvider"'), true)
+  assert.equal(html.includes('value="google"'), true)
+  assert.equal(html.includes('value="deepl"'), true)
+  assert.equal(html.includes('id="deeplApiKey"'), true)
+})
+
 test("popup loads and saves explanation translation display mode", async () => {
   const source = await readFile(new URL("../../src/popup/popup.ts", import.meta.url), "utf8")
 
+  assert.equal(source.includes("deeplApiKeyInput"), true)
   assert.equal(source.includes("explanationTranslationDisplayModeSelect"), true)
+  assert.equal(source.includes("settings.deeplApiKey"), true)
   assert.equal(source.includes("settings.explanationTranslationDisplayMode"), true)
   assert.equal(source.includes("explanationTranslationDisplayMode:"), true)
+  assert.equal(source.includes("settings.translationProvider"), true)
+  assert.equal(source.includes("translationProviderSelect"), true)
 })

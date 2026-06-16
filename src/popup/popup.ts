@@ -1,6 +1,6 @@
 import { getSettings, saveSettings } from "../shared/storage.ts"
-import { isExplanationTranslationDisplayMode } from "../shared/types.ts"
-import type { ExplanationTranslationDisplayMode } from "../shared/types.ts"
+import { isExplanationTranslationDisplayMode, isTranslationProvider } from "../shared/types.ts"
+import type { ExplanationTranslationDisplayMode, TranslationProvider } from "../shared/types.ts"
 
 class MissingPopupElementError extends Error {
   readonly name = "MissingPopupElementError"
@@ -14,8 +14,10 @@ class MissingPopupElementError extends Error {
 
 type PopupElements = {
   readonly apiKeyInput: HTMLInputElement
+  readonly deeplApiKeyInput: HTMLInputElement
   readonly explanationTranslationDisplayModeSelect: HTMLSelectElement
   readonly targetLanguageSelect: HTMLSelectElement
+  readonly translationProviderSelect: HTMLSelectElement
   readonly saveButton: HTMLButtonElement
   readonly statusElement: HTMLDivElement
 }
@@ -27,9 +29,11 @@ async function init(): Promise<void> {
   const settings = await getSettings()
 
   elements.apiKeyInput.value = settings.googleApiKey
+  elements.deeplApiKeyInput.value = settings.deeplApiKey
   elements.explanationTranslationDisplayModeSelect.value =
     settings.explanationTranslationDisplayMode
   elements.targetLanguageSelect.value = settings.targetLanguage
+  elements.translationProviderSelect.value = settings.translationProvider
 
   elements.saveButton.addEventListener("click", () => {
     savePopupSettings(elements).catch(logPopupError)
@@ -38,9 +42,11 @@ async function init(): Promise<void> {
 
 async function savePopupSettings(elements: PopupElements): Promise<void> {
   await saveSettings({
+    deeplApiKey: elements.deeplApiKeyInput.value.trim(),
     explanationTranslationDisplayMode: getSelectedExplanationTranslationDisplayMode(elements),
     googleApiKey: elements.apiKeyInput.value.trim(),
     targetLanguage: elements.targetLanguageSelect.value,
+    translationProvider: getSelectedTranslationProvider(elements),
   })
 
   elements.statusElement.textContent = "Saved."
@@ -54,9 +60,16 @@ function getSelectedExplanationTranslationDisplayMode(
   return isExplanationTranslationDisplayMode(value) ? value : "replace"
 }
 
+function getSelectedTranslationProvider(elements: PopupElements): TranslationProvider {
+  const value = elements.translationProviderSelect.value
+
+  return isTranslationProvider(value) ? value : "google"
+}
+
 function getPopupElements(): PopupElements {
   return {
     apiKeyInput: getRequiredElement("googleApiKey", HTMLInputElement),
+    deeplApiKeyInput: getRequiredElement("deeplApiKey", HTMLInputElement),
     explanationTranslationDisplayModeSelect: getRequiredElement(
       "explanationTranslationDisplayMode",
       HTMLSelectElement,
@@ -64,6 +77,7 @@ function getPopupElements(): PopupElements {
     saveButton: getRequiredElement("save", HTMLButtonElement),
     statusElement: getRequiredElement("status", HTMLDivElement),
     targetLanguageSelect: getRequiredElement("targetLanguage", HTMLSelectElement),
+    translationProviderSelect: getRequiredElement("translationProvider", HTMLSelectElement),
   }
 }
 

@@ -66,8 +66,21 @@
     <h1>Clozemaster Native Helper</h1>
 
     <label>
+      Translation provider
+      <select id="translationProvider">
+        <option value="google">Google Cloud Translation</option>
+        <option value="deepl">DeepL</option>
+      </select>
+    </label>
+
+    <label>
       Google Cloud Translation API Key
       <input id="googleApiKey" type="password" placeholder="AIza..." autocomplete="off" />
+    </label>
+
+    <label>
+      DeepL API Key
+      <input id="deeplApiKey" type="password" placeholder="...:fx" autocomplete="off" />
     </label>
 
     <label>

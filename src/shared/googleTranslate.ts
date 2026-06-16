@@ -1,13 +1,7 @@
 import { isRecord } from "./types.ts"
+import type { FetchTranslate, TranslationClientInput } from "./translationClient.ts"
 
-export type TranslateWithGoogleInput = {
-  readonly apiKey: string
-  readonly sourceLanguage?: string | undefined
-  readonly text: string
-  readonly targetLanguage: string
-}
-
-export type FetchTranslate = (url: string, init: RequestInit) => Promise<Response>
+export type TranslateWithGoogleInput = TranslationClientInput
 
 type GoogleTranslateRequestBody = {
   readonly q: string

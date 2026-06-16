@@ -1,3 +1,4 @@
+import { translateWithDeepLV2 } from "../shared/deeplTranslate.ts"
 import { translateWithGoogleV2 } from "../shared/googleTranslate.ts"
 import { getCache, getSettings, setCache } from "../shared/storage.ts"
 import { isTranslateMeaningRequest } from "../shared/types.ts"
@@ -13,7 +14,8 @@ chrome.runtime.onMessage.addListener((message: unknown, _sender, sendResponse) =
     getSettings,
     getCache,
     setCache,
-    translate: translateWithGoogleV2,
+    translateWithDeepL: translateWithDeepLV2,
+    translateWithGoogle: translateWithGoogleV2,
   })
     .then(sendResponse)
     .catch((error: unknown) => {

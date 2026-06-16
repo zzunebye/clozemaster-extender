@@ -6,7 +6,9 @@
   "permissions": ["storage"],
   "host_permissions": [
     "https://www.clozemaster.com/*",
-    "https://translation.googleapis.com/*"
+    "https://translation.googleapis.com/*",
+    "https://api.deepl.com/*",
+    "https://api-free.deepl.com/*"
   ],
   "background": {
     "service_worker": "background.js",

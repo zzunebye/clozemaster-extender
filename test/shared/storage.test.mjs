@@ -15,9 +15,11 @@ test("getSettings defaults explanation translation display mode to replace when 
 
 test("getSettings defaults explanation translation display mode to replace when invalid", async () => {
   const storage = createChromeStorage({
+    deeplApiKey: "deepl-key",
     explanationTranslationDisplayMode: "unsupported-mode",
     googleApiKey: "api-key",
     targetLanguage: "ja",
+    translationProvider: "google",
   })
 
   globalThis.chrome = { storage: { local: storage } }
@@ -25,9 +27,44 @@ test("getSettings defaults explanation translation display mode to replace when 
   const settings = await getSettings()
 
   assert.deepEqual(settings, {
+    deeplApiKey: "deepl-key",
     explanationTranslationDisplayMode: "replace",
     googleApiKey: "api-key",
     targetLanguage: "ja",
+    translationProvider: "google",
+  })
+})
+
+test("getSettings defaults translation provider to google when missing", async () => {
+  const storage = createChromeStorage({})
+
+  globalThis.chrome = { storage: { local: storage } }
+
+  const settings = await getSettings()
+
+  assert.equal(settings.translationProvider, "google")
+  assert.equal(settings.deeplApiKey, "")
+})
+
+test("getSettings falls back to google when translation provider is invalid", async () => {
+  const storage = createChromeStorage({
+    deeplApiKey: "deepl-key",
+    explanationTranslationDisplayMode: "replace",
+    googleApiKey: "google-key",
+    targetLanguage: "ja",
+    translationProvider: "unsupported-provider",
+  })
+
+  globalThis.chrome = { storage: { local: storage } }
+
+  const settings = await getSettings()
+
+  assert.deepEqual(settings, {
+    deeplApiKey: "deepl-key",
+    explanationTranslationDisplayMode: "replace",
+    googleApiKey: "google-key",
+    targetLanguage: "ja",
+    translationProvider: "google",
   })
 })
 
@@ -38,16 +75,20 @@ test("saveSettings writes explanation translation display mode", async () => {
   globalThis.chrome = { storage: { local: storage } }
 
   await saveSettings({
+    deeplApiKey: "deepl-key",
     explanationTranslationDisplayMode: "separate",
     googleApiKey: "api-key",
     targetLanguage: "ko",
+    translationProvider: "deepl",
   })
 
   assert.deepEqual(writes, [
     {
+      deeplApiKey: "deepl-key",
       explanationTranslationDisplayMode: "separate",
       googleApiKey: "api-key",
       targetLanguage: "ko",
+      translationProvider: "deepl",
     },
   ])
 })

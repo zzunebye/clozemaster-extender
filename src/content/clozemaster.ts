@@ -110,6 +110,7 @@ function handleStorageChanged(
   if (
     areaName !== "local" ||
     (changes["targetLanguage"] === undefined &&
+      changes["translationProvider"] === undefined &&
       changes["explanationTranslationDisplayMode"] === undefined)
   ) {
     return

@@ -1,19 +1,24 @@
-import { isExplanationTranslationDisplayMode } from "./types.ts"
+import { isExplanationTranslationDisplayMode, isTranslationProvider } from "./types.ts"
 import type { ExtensionSettings } from "./types.ts"
 
 const DEFAULT_SETTINGS: ExtensionSettings = {
+  deeplApiKey: "",
   explanationTranslationDisplayMode: "replace",
   googleApiKey: "",
   targetLanguage: "ko",
+  translationProvider: "google",
 }
 
 export async function getSettings(): Promise<ExtensionSettings> {
   const result = await getLocal(DEFAULT_SETTINGS)
+  const deeplApiKey = result["deeplApiKey"]
   const explanationTranslationDisplayMode = result["explanationTranslationDisplayMode"]
   const googleApiKey = result["googleApiKey"]
   const targetLanguage = result["targetLanguage"]
+  const translationProvider = result["translationProvider"]
 
   return {
+    deeplApiKey: typeof deeplApiKey === "string" ? deeplApiKey : DEFAULT_SETTINGS.deeplApiKey,
     explanationTranslationDisplayMode: isExplanationTranslationDisplayMode(
       explanationTranslationDisplayMode,
     )
@@ -22,14 +27,19 @@ export async function getSettings(): Promise<ExtensionSettings> {
     googleApiKey: typeof googleApiKey === "string" ? googleApiKey : DEFAULT_SETTINGS.googleApiKey,
     targetLanguage:
       typeof targetLanguage === "string" ? targetLanguage : DEFAULT_SETTINGS.targetLanguage,
+    translationProvider: isTranslationProvider(translationProvider)
+      ? translationProvider
+      : DEFAULT_SETTINGS.translationProvider,
   }
 }
 
 export async function saveSettings(settings: ExtensionSettings): Promise<void> {
   await setLocal({
+    deeplApiKey: settings.deeplApiKey,
     explanationTranslationDisplayMode: settings.explanationTranslationDisplayMode,
     googleApiKey: settings.googleApiKey,
     targetLanguage: settings.targetLanguage,
+    translationProvider: settings.translationProvider,
   })
 }
 

@@ -111,6 +111,16 @@ test("content script refreshes explanation translation when storage settings cha
 
   assert.equal(source.includes("chrome.storage.onChanged"), true)
   assert.equal(source.includes("explanationTranslationDisplayMode"), true)
+  assert.equal(source.includes('changes["translationProvider"]'), true)
+})
+
+test("manifest allows background requests to DeepL API hosts", async () => {
+  const manifest = JSON.parse(
+    await readFile(new URL("../../public/manifest.json", import.meta.url), "utf8"),
+  )
+
+  assert.equal(manifest.host_permissions.includes("https://api.deepl.com/*"), true)
+  assert.equal(manifest.host_permissions.includes("https://api-free.deepl.com/*"), true)
 })
 
 test("content script can import local modules before bundling", async () => {
