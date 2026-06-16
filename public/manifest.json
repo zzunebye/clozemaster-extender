@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Clozemaster Native Helper",
+  "version": "0.1.0",
+  "description": "Translate Clozemaster meanings into your native language.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://www.clozemaster.com/*",
+    "https://translation.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.clozemaster.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
