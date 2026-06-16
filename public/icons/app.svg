@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="Clozemaster Multilingual Helper icon">
+  <rect width="128" height="128" rx="26" fill="#0f766e"/>
+  <path fill="#ffffff" d="M28 30h48c8.837 0 16 7.163 16 16v18c0 8.837-7.163 16-16 16H50.5L34 94V80h-6c-8.837 0-16-7.163-16-16V46c0-8.837 7.163-16 16-16Z"/>
+  <path fill="#facc15" d="M58 54h42c8.837 0 16 7.163 16 16v14c0 8.837-7.163 16-16 16h-8v14l-16.5-14H58c-8.837 0-16-7.163-16-16V70c0-8.837 7.163-16 16-16Z"/>
+  <path fill="#134e4a" d="M42.675 63h-7.35l-1.4 4H27l8.05-24h7.9L51 67h-6.925l-1.4-4Zm-1.675-5-1.975-5.875L37 58h4Z"/>
+  <path fill="#134e4a" d="M63 72h34v6H63v-6Zm0 11h25v6H63v-6Z"/>
+  <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="7" d="M83 39c7 2 13 7 16 14m-54 36c-7-2-13-7-16-14"/>
+</svg>
